@@ -71,21 +71,42 @@ func copy_pages(oPages []notionapi.Page) []notionapi.Page {
 			}
 		}
 
-		page = add_date_to_page_title(page)
-		page = add_tags_to_page(page)
+		if addDate {
+			page = add_date_to_page_title(page)
+		}
 
-		if copyTimeStartPropObj, ok := srcPage.Properties[copyTimeStartProp]; ok {
-			if copyTimeEndPropObj, ok := srcPage.Properties[copyTimeEndProp]; ok {
-				times := props_to_texts([]notionapi.Property{copyTimeStartPropObj, copyTimeEndPropObj})
-				if len(times) == 2 {
-					if times[0] != "" && times[1] != "" {
-						page = copy_time_to_page(page, times[0], times[1])
-					}
-				} else {
-					panic(fmt.Errorf("the page does not have a start and end time"))
+		if addTag {
+			page = add_tags_to_page(page)
+		}
+
+		if copyTime {
+			var copyTimeStartPropObj, copyTimeEndPropObj, copyTimeDateOffsetPropObj notionapi.Property
+			var copyTimePropChecked bool
+			if copyTimeStartPropObj, copyTimePropChecked = srcPage.Properties[copyTimeStartProp]; !copyTimePropChecked {
+				panic(fmt.Errorf("the page does not have a property named %s", copyTimeStartProp))
+			}
+			if copyTimeEndPropObj, copyTimePropChecked = srcPage.Properties[copyTimeEndProp]; !copyTimePropChecked {
+				panic(fmt.Errorf("the page does not have a property named %s", copyTimeEndProp))
+			}
+			copyTimeDateOffsetPropObj, copyTimePropChecked = srcPage.Properties[copyTimeDateOffsetProp]
+			if !copyTimePropChecked {
+				copyTimeDateOffsetPropObj = notionapi.NumberProperty{
+					Number: 0,
 				}
 			}
+			copyTimeDateOffsetNumberPropObj := copyTimeDateOffsetPropObj.(*notionapi.NumberProperty)
+			copyTimeDateOffset := int(copyTimeDateOffsetNumberPropObj.Number)
+
+			timeStrings := props_to_texts([]notionapi.Property{copyTimeStartPropObj, copyTimeEndPropObj})
+			if len(timeStrings) == 2 {
+				if timeStrings[0] != "" && timeStrings[1] != "" {
+					page = copy_time_to_page(page, timeStrings[0], timeStrings[1], copyTimeDateOffset)
+				}
+			} else {
+				panic(fmt.Errorf("the page does not have a start and end time"))
+			}
 		}
+
 		pages = append(pages, *page)
 	}
 

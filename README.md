@@ -12,4 +12,4 @@ Write `.env`, make, and run it daily using crontab.
 
 Made by *Jio Gim*, with MIT License.
 
-If you have any questions, please make an issue.
+If you have any questions, please [make a discussion QnA article](https://github.com/wldh-g/notion-daily-copy/discussions/new).

@@ -25,6 +25,7 @@ var addTagName string
 
 var copyTime bool
 var copyTimeTargetProp string
+var copyTimeDateOffsetProp string
 var copyTimeStartProp string
 var copyTimeEndProp string
 
@@ -67,6 +68,7 @@ func read_dotenv() {
 
 	copyTime = os.Getenv("COPY_TIME") == "true"
 	copyTimeTargetProp = os.Getenv("TIME_PROP_NAME")
+	copyTimeDateOffsetProp = os.Getenv("TIME_DATE_OFFSET_PROP_NAME")
 	copyTimeStartProp = os.Getenv("START_TIME_PROP_NAME")
 	copyTimeEndProp = os.Getenv("END_TIME_PROP_NAME")
 }
