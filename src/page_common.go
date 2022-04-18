@@ -65,6 +65,22 @@ func copy_pages(oPages []notionapi.Page) []notionapi.Page {
 					page.Properties[tgtPropName] = &notionapi.RelationProperty{
 						Relation: propObjReal.Relation,
 					}
+				case *notionapi.SelectProperty:
+					page.Properties[tgtPropName] = &notionapi.SelectProperty{
+						Select: notionapi.Option{
+							Name: propObjReal.Select.Name,
+						},
+					}
+				case *notionapi.MultiSelectProperty:
+					multiSelection := make([]notionapi.Option, 0, len(propObjReal.MultiSelect))
+					for _, option := range propObjReal.MultiSelect {
+						multiSelection = append(multiSelection, notionapi.Option{
+							Name: option.Name,
+						})
+					}
+					page.Properties[tgtPropName] = &notionapi.MultiSelectProperty{
+						MultiSelect: multiSelection,
+					}
 				default:
 					panic(fmt.Errorf("copying a property of type %T is not supported", propObjReal))
 				}
