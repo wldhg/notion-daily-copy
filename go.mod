@@ -3,9 +3,13 @@ module wldh.org/notion-hook
 go 1.18
 
 require (
-	github.com/briandowns/spinner v1.18.1
+	github.com/briandowns/spinner v1.19.0
 	github.com/joho/godotenv v1.4.0
-	github.com/jomei/notionapi v1.7.5
+	github.com/wldh-g/notionapi v1.8.6
+)
+
+replace (
+	github.com/wldh-g/notionapi v1.8.6 => /home/wldh/repo/notionapi
 )
 
 require (

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/jomei/notionapi"
+	"github.com/wldh-g/notionapi"
 )
 
 func get_db(id string) *notionapi.Database {

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/briandowns/spinner"
-	"github.com/jomei/notionapi"
+	"github.com/wldh-g/notionapi"
 )
 
 var spinnerType = spinner.CharSets[14]

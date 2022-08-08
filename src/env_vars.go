@@ -12,16 +12,28 @@ import (
 var secret string
 var srcID string
 var tgtID string
+
+var filterEnabled bool
+var filterBoolProp string
+
 var copyProps map[string]string
+
 var dateOffset int64 = 0
+
+var addDateToTitle bool
+var addDateToTitleProp string
+var addDateToTitleFormat string
 
 var addDate bool
 var addDateProp string
-var addDateFormat string
 
 var addTag bool
 var addTagProp string
 var addTagName string
+
+var addStatus bool
+var addStatusProp string
+var addStatusValue string
 
 var copyTime bool
 var copyTimeTargetProp string
@@ -38,6 +50,9 @@ func read_dotenv() {
 	secret = os.Getenv("INTEGRATION_SECRET")
 	srcID = os.Getenv("SOURCE_DATABASE")
 	tgtID = os.Getenv("TARGET_DATABASE")
+
+	filterEnabled = os.Getenv("FILTER_ENABLED") == "true"
+	filterBoolProp = os.Getenv("FILTER_PROP_NAME")
 
 	copyPropsStr := os.Getenv("COPY_PROPERTY")
 	copyPropsSplit := strings.Split(copyPropsStr, ",")
@@ -58,13 +73,21 @@ func read_dotenv() {
 		}
 	}
 
+	addDateToTitle = os.Getenv("ADD_DATE_TO_TITLE") == "true"
+	addDateToTitleProp = os.Getenv("TITLE_PROP_NAME")
+	addDateToTitleFormat = os.Getenv("TITLE_DATE_FORMAT")
+
 	addDate = os.Getenv("ADD_DATE") == "true"
-	addDateProp = os.Getenv("TITLE_PROP_NAME")
-	addDateFormat = os.Getenv("DATE_FORMAT")
+	addDateProp = os.Getenv("DATE_PROP_NAME")
 
 	addTag = os.Getenv("ADD_TAG") == "true"
 	addTagProp = os.Getenv("TAG_PROP_NAME")
 	addTagName = os.Getenv("TAG_VALUE")
+
+	// addStatus = os.Getenv("ADD_STATUS") == "true"
+	addStatus = false // Notion API does not support status yet
+	addStatusProp = os.Getenv("STATUS_PROP_NAME")
+	addStatusValue = os.Getenv("STATUS_VALUE")
 
 	copyTime = os.Getenv("COPY_TIME") == "true"
 	copyTimeTargetProp = os.Getenv("TIME_PROP_NAME")
@@ -86,6 +109,10 @@ func verify_env_var() {
 		panic(fmt.Errorf("invalid target database ID"))
 	}
 
+	if filterEnabled && len(filterBoolProp) == 0 {
+		panic(fmt.Errorf("invalid filter property"))
+	}
+
 	if len(copyProps) == 0 {
 		panic(fmt.Errorf("no copy properties"))
 	}
@@ -95,12 +122,18 @@ func verify_env_var() {
 		}
 	}
 
+	if addDateToTitle {
+		if len(addDateToTitleProp) == 0 {
+			panic(fmt.Errorf("no title property name for date addition"))
+		}
+		if len(addDateToTitleFormat) == 0 {
+			panic(fmt.Errorf("no date format for title-date addition"))
+		}
+	}
+
 	if addDate {
 		if len(addDateProp) == 0 {
 			panic(fmt.Errorf("no date property name"))
-		}
-		if len(addDateFormat) == 0 {
-			panic(fmt.Errorf("no date format"))
 		}
 	}
 
@@ -110,6 +143,15 @@ func verify_env_var() {
 		}
 		if len(addTagName) == 0 {
 			panic(fmt.Errorf("no tag name"))
+		}
+	}
+
+	if addStatus {
+		if len(addStatusProp) == 0 {
+			panic(fmt.Errorf("no status property name"))
+		}
+		if len(addStatusValue) == 0 {
+			panic(fmt.Errorf("no status value"))
 		}
 	}
 
