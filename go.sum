@@ -10,7 +10,7 @@ github.com/mattn/go-isatty v0.0.8 h1:HLtExJ+uU2HOZ+wI0Tt5DtUDrx8yhUqDcp7fYERX4CE
 github.com/mattn/go-isatty v0.0.8/go.mod h1:Iq45c/XA43vh69/j3iqttzPXn0bhXyGjM0Hdxcsrc5s=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
-github.com/wldh-g/notionapi v1.8.6 h1:psuxmQNt7YUqPGIkc7WaqKmZN1tqvJDvNB14fO/Ehxk=
-github.com/wldh-g/notionapi v1.8.6/go.mod h1:htWauPsU92NnTaVFtXL0jj5Y2Beq+lFBpcx7h7LihaI=
+github.com/wldh-g/notionapi v1.9.0 h1:OS+vBESgmOpGoaN+ShivB8TK/BRhhNOsIcHQOkn9giQ=
+github.com/wldh-g/notionapi v1.9.0/go.mod h1:htWauPsU92NnTaVFtXL0jj5Y2Beq+lFBpcx7h7LihaI=
 golang.org/x/sys v0.0.0-20190222072716-a9d3bda3a223 h1:DH4skfRX4EBpamg7iV4ZlCpblAHI6s6TDM39bFZumv8=
 golang.org/x/sys v0.0.0-20190222072716-a9d3bda3a223/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
